@@ -1,3 +1,4 @@
+; vim: ft=nasm
 [ORG 0x7c00]
 
   xor ax, ax
