@@ -1,9 +1,12 @@
 ; vim: ft=nasm
 
+jmp main
+
 %include "biosprint.inc"
 
 [ORG 0x7c00]
 
+main:
 	xor ax, ax
 	mov ds, ax
 	cld
