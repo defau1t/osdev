@@ -22,7 +22,7 @@ start:  xor ax, ax
 
   jmp $
 
-keyhandler
+keyhandler:
   in al, 0x60
   mov bl, al
   mov byte [port60], al
