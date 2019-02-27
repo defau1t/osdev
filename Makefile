@@ -1,13 +1,18 @@
-BCONFIG_CONFIG ?= .config
-export BCONFIG_CONFIG
 
--include $(BCONFIG_CONFIG)
+.PHONY: all
+all: print_bios print_without_bios bigprint interrupts modes
 
-obj-$(CONFIG_PRINT_BIOS) += print_with_bios/boot.asm
-obj-$(CONFIG_PRINT_NOBIOS) += print_without_bios/boot.asm
+print_bios: print_with_bios/boot.asm print_with_bios/biosprint.inc
+	nasm $< -i ./$(<D)/ -f bin -o $@.bin
 
-.PHONY: all $(obj-y)
-all: boot.bin
+print_without_bios: print_without_bios/boot.asm print_without_bios/nobiosprint.inc
+	nasm $< -i ./$(<D)/ -f bin -o $@.bin
 
-boot.bin: $(obj-y)
-	nasm $< -f bin -o $@
+bigprint: bigprint/boot.asm bigprint/print.inc
+	nasm $< -i ./$(<D)/ -f bin -o $@.bin
+
+interrupts: interrupts/boot.asm interrupts/nobiosprint.inc
+	nasm $< -i ./$(<D)/ -f bin -o $@.bin
+
+modes: modes/boot.asm
+	nasm $< -i ./$(<D)/ -f bin -o $@.bin
